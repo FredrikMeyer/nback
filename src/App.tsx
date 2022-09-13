@@ -133,8 +133,8 @@ function App() {
         style={{
           border: "6px double black",
           borderRadius: "50%",
-          width: "60vw",
-          lineHeight: "60vw",
+          width: "min(60vw, 600px)",
+          lineHeight: "min(60vw, 600px)",
           aspectRatio: 1,
           textAlign: "center",
           fontSize: 50,
