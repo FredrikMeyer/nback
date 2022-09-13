@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./App.css";
 
 const numbers = ["A", "O", "P", "F"];
@@ -106,8 +106,8 @@ function App() {
   const setLevelHandler = (n: number) => {
     setLevel(n);
     setState("BEFORE");
-    setStep(0)
-    setScore(0)
+    setStep(0);
+    setScore(0);
   };
 
   return (
