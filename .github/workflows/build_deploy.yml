@@ -6,6 +6,8 @@ name: Build+deploy
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 permissions:
   contents: read
@@ -47,6 +49,7 @@ jobs:
 
   # Deployment job
   deploy:
+    if: github.ref == 'refs/heads/main' || (github.event.action == 'closed' && github.event.pull_request.merged == true)
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
