@@ -5,3 +5,10 @@
   text-align: center;
   height: 100%;
 }
+
+@media (min-width: 700px) {
+  #root {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+}

@@ -4,6 +4,7 @@ import "./App.css";
 const numbers = ["A", "O", "P", "F"];
 const maxTime = 30;
 const delay = 1000;
+const defaultLevel = 2;
 
 function randomNumber() {
   const index = Math.floor(Math.random() * numbers.length);
@@ -63,7 +64,7 @@ function App() {
   const [score, setScore] = React.useState(0);
   const [isCorrect, setIsCorrect] = React.useState(false);
   const [isWrong, setIsWrong] = React.useState(false);
-  const [level, setLevel] = React.useState(1);
+  const [level, setLevel] = React.useState(defaultLevel);
   const [intervalId, setIntervalId] = React.useState(0);
   const [state, setState] = React.useState<"BEFORE" | "RUNNING" | "AFTER">(
     "BEFORE"
@@ -81,16 +82,18 @@ function App() {
     setIsWrong(false);
   }
 
-  function start() {
-    update();
-    const id = setInterval(update, delay);
-    setIntervalId(id);
-    setState("RUNNING");
-  }
+  const startHandler = React.useCallback(() => {
+    function start() {
+      update();
+      const id = setInterval(update, delay);
+      setIntervalId(id);
+      setState("RUNNING");
+    }
 
-  const startHandler = () => start();
+    start();
+  }, []);
 
-  const guessNumberHandler = () => {
+  const guessNumberHandler = React.useCallback(() => {
     const correct = correctGuess(numbers, level);
     if (correct) {
       console.log("YAY");
@@ -101,7 +104,7 @@ function App() {
       setScore((sc) => sc - 1);
       console.log("WRONG");
     }
-  };
+  }, [level, numbers]);
 
   const setLevelHandler = (n: number) => {
     setLevel(n);
@@ -109,6 +112,18 @@ function App() {
     setStep(0);
     setScore(0);
   };
+
+  React.useEffect(() => {
+    function pressHandler(e: KeyboardEvent) {
+      if (e.code === "Space") {
+        const f = state === "BEFORE" ? startHandler : guessNumberHandler;
+        f();
+      }
+    }
+    document.addEventListener("keydown", pressHandler);
+
+    return () => document.removeEventListener("keydown", pressHandler);
+  }, [guessNumberHandler, startHandler, state]);
 
   return (
     <div
@@ -124,7 +139,12 @@ function App() {
       <div>
         <h1>n-back</h1>
         <p>
-          Recall the letter <code>n</code> levels back.
+          Recall the letter <code>n</code> levels back. This is a{" "}
+          <a href="https://en.wikipedia.org/wiki/N-back">
+            common performance task
+          </a>{" "}
+          to measure working memory. Start guessing by pressing <i>Start</i> or{" "}
+          <kbd>spacebar</kbd>.
         </p>
       </div>
       <Level level={level} setLevelHandler={setLevelHandler} />
