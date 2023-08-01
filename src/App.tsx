@@ -67,7 +67,7 @@ function App() {
   const [level, setLevel] = React.useState(defaultLevel);
   const [intervalId, setIntervalId] = React.useState(0);
   const [state, setState] = React.useState<"BEFORE" | "RUNNING" | "AFTER">(
-    "BEFORE"
+    "BEFORE",
   );
 
   if (state === "RUNNING" && step >= maxTime) {
