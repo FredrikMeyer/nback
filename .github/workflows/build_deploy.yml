@@ -33,7 +33,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: yarn install --frozen-lockfile
+    - run: yarn install --immutable
     - run: yarn prettier
     - run: yarn lint
     - run: yarn build --base "${{ steps.pages.outputs.base_url }}/"
