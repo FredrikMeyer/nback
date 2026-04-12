@@ -1,6 +1,5 @@
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
-import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 
 export default tseslint.config(
@@ -9,7 +8,6 @@ export default tseslint.config(
   {
     files: ["**/*.ts", "**/*.tsx"],
     plugins: {
-      react,
       "react-hooks": reactHooks,
     },
     languageOptions: {
@@ -21,13 +19,7 @@ export default tseslint.config(
         sourceType: "module",
       },
     },
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
     rules: {
-      ...react.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
     },
   }
